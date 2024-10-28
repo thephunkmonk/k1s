@@ -12,3 +12,6 @@ $ docker run -dit --name my-running-app -p 8949:80 my-apache2
 
 # Get into the container
 $ docker exec -it my-running-app bash
+
+# Run & Execute container with access to current directory
+$ docker run -dit --name my-running-app -p 8949:80 -v "$PWD":/usr/local/apache2/htdocs my-apache2
