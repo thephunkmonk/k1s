@@ -1,0 +1,23 @@
+services:
+  blog-1:
+    image: blog  # Replace 'blog' with the actual image name for blog-1
+    container_name: blog-1
+
+  blog-2:
+    image: blog  # Replace 'blog' with the actual image name for blog-2
+    container_name: blog-2
+
+  nginx_lb:
+    image: lb  # Replace 'lb' with the actual image name for nginx_lb
+    container_name: nginx_lb
+    ports:
+      - "8949:80"  # Exposes port 80 in the container on port 8949 on your host
+    depends_on:
+      - blog-1
+      - blog-2
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
