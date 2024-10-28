@@ -5,7 +5,7 @@
 ```bash
 
 # BUILD 
-$ docker build -t my-apache2 .
+$ docker build -t my-apache2 docker/httpd
 
 # RUN
 $ docker run -dit --name my-running-app -p 8949:80 my-apache2
