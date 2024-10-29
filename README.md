@@ -15,3 +15,12 @@ $ docker exec -it my-running-app bash
 
 # Run & Execute container with access to current directory
 $ docker run -dit --name my-running-app -p 8949:80 -v "$PWD":/usr/local/apache2/htdocs my-apache2
+```
+
+# Using Docker Compose
+```
+$ docker-compose up
+
+# Follow the same steps as above
+
+```

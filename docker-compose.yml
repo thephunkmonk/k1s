@@ -2,10 +2,14 @@ services:
   blog-1:
     image: blog  # Replace 'blog' with the actual image name for blog-1
     container_name: blog-1
+    networks:
+      - my_network
 
   blog-2:
     image: blog  # Replace 'blog' with the actual image name for blog-2
     container_name: blog-2
+    networks:
+      - my_network
 
   nginx_lb:
     image: lb  # Replace 'lb' with the actual image name for nginx_lb
