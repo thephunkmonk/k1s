@@ -17,6 +17,10 @@ services:
     ports:
       - 8052:80
 
+  blog-3:
+     build: ./docker/httpd
+     container_name: blog-3
+
   load_balancer:
 #    image: lb  # Replace 'lb' with the actual image name for nginx_lb
     build: ./docker/nginx
@@ -26,9 +30,11 @@ services:
     depends_on:
       - blog-1
       - blog-2
+      - blog-3
     links:
       - blog-1
       - blog-2
+      - blog-3
 #    networks:
 #      - my_network
     develop:

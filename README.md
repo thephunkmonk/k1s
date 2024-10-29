@@ -23,4 +23,15 @@ $ docker-compose up
 
 # Follow the same steps as above
 
+$ docker compose -f docker-compose.yaml up -d 
+$ docker compose up -d 
+$ docker compose up -d --build
+$ docker compose up -d --build --force-recreate
+$ docker compose up -d --scale blog=1
+$ docker compose up -d --scale blog=2
+$ docker compose up -d --watch
+
+$ docker compose stop
+$ docker compose start
+$ docker compose down
 ```
