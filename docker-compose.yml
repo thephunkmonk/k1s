@@ -1,61 +1,36 @@
+name: kubetrialdock
 services:
-  blog-1:
-#    image: blog  # Replace 'blog' with the actual image name for blog-1
+  blog:
     build: ./docker/httpd
-    container_name: blog-1
-#    networks:
-#      - my_network
-    ports:
-       - 8051:80
-
-  blog-2:
-#    image: blog  # Replace 'blog' with the actual image name for blog-2
-    build: ./docker/httpd
-    container_name: blog-2
-#    networks:
-#      - my_network
-    ports:
-      - 8052:80
-
-  blog-3:
-     build: ./docker/httpd
-     container_name: blog-3
+    expose:
+      - 80
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        reservations:
+          cpus: '0.01'
+          memory: 6M
+        limits:
+          cpus: '0.01'
+          memory: 6M
+    environment:
+      - VIRTUAL_HOST=localhost
+      - VIRTUAL_PORT=80
 
   load_balancer:
-#    image: lb  # Replace 'lb' with the actual image name for nginx_lb
-    build: ./docker/nginx
-    container_name: nginx_lb
+    image: nginxproxy/nginx-proxy
     ports:
-      - "8949:80"  # Exposes port 80 in the container on port 8949 on your host
+      - 8949:80
     depends_on:
-      - blog-1
-      - blog-2
-      - blog-3
-    links:
-      - blog-1
-      - blog-2
-      - blog-3
-#    networks:
-#      - my_network
-    develop:
-      watch:
-         - action: sync+restart
-           path: ./docker/nginx/default.conf
-           target: /etc/nginx/conf.d/default.conf
+      - blog
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
     deploy:
       resources:
-         reservtions:
-            cpus: '0.05'
-            memory: 6M
-         limits:
-            cpus: '0.05'
-            memory: 6M
-            pids: 10
-      environment:
-            - VIRTUAL_HOST=localhost
-            - VIRTUAL_PORT=80
-
-
-networks:
-  my_network:
-    driver: bridge
+        limits:
+          cpus: '0.05'
+          memory: 50M
+        reservations:
+          cpus: '0.01'
+          memory: 6M
